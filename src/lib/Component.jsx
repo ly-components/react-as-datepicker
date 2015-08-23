@@ -24,8 +24,7 @@ class DatePicker extends React.Component {
       React.PropTypes.string,
       React.PropTypes.object
     ]),
-		blacklist: React.PropTypes.arrayOf(React.PropTypes.string),
-		name: React.PropTypes.string
+		blacklist: React.PropTypes.arrayOf(React.PropTypes.string)
 	}
 	static defaultProps = {
 		month: null,
@@ -57,6 +56,16 @@ class DatePicker extends React.Component {
 		nextProps.value && (newState.value = toDate(nextProps.value));
 		this.setState(newState);
 	}
+	getValue() {
+		return this.state.value;
+	}
+	setValue(val) {
+		if(this._inBlackList(val)) return this;
+		this.setState({
+			value: toDate(val)
+		});
+		return this;
+	}
 	_parseBlacklist(blacklist) {
 		return blacklist.map(item => ({
 			from: toDate(item.from),
@@ -74,7 +83,7 @@ class DatePicker extends React.Component {
 		this.setState({
 			value
 		});
-    this.fireAll('change', e, value);
+    this.fireAll('change', value);
   }
 	_inBlackList(day) {
 		return this._blacklist.reduce((rst, range) => rst || inRange(day, range.from, range.to), false);
@@ -89,7 +98,7 @@ class DatePicker extends React.Component {
 				year,
 				month
 			});
-			this.fireAll('dateChange', e, year, month);
+			this.fireAll('dateChange', year, month);
 		};
 	}
   render() {

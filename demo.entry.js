@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "dc3c21d043b5f6835efb"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ce626e10aa48794d003f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -7976,10 +7976,10 @@
 	var config = {
 	  year: 2015,
 	  month: 8,
-	  onChange: function onChange(e, val) {
+	  onChange: function onChange(val) {
 	    console.log(val);
 	  },
-	  onDateChange: function onDateChange(e, year, month) {
+	  onDateChange: function onDateChange(year, month) {
 	    console.log(year, month);
 	  },
 	  blacklist: [{
@@ -7994,7 +7994,7 @@
 	  }]
 	};
 
-	_react2['default'].render(_react2['default'].createElement(_srcIndex2['default'], config), document.getElementById('demo'));
+	window.component = _react2['default'].render(_react2['default'].createElement(_srcIndex2['default'], config), document.getElementById('demo'));
 
 	/* REACT HOT LOADER */ }).call(this); if (true) { (function () { module.hot.dispose(function (data) { data.makeHot = module.makeHot; }); if (module.exports && module.makeHot) { var makeExportsHot = __webpack_require__(229), foundReactClasses = false; if (makeExportsHot(module, __webpack_require__(59))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "demo.jsx" + ": " + err.message); } }); } } })(); }
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)(module)))
@@ -28874,6 +28874,20 @@
 				this.setState(newState);
 			}
 		}, {
+			key: 'getValue',
+			value: function getValue() {
+				return this.state.value;
+			}
+		}, {
+			key: 'setValue',
+			value: function setValue(val) {
+				if (this._inBlackList(val)) return this;
+				this.setState({
+					value: (0, _util.toDate)(val)
+				});
+				return this;
+			}
+		}, {
 			key: '_parseBlacklist',
 			value: function _parseBlacklist(blacklist) {
 				return blacklist.map(function (item) {
@@ -28896,7 +28910,7 @@
 				this.setState({
 					value: value
 				});
-				this.fireAll('change', e, value);
+				this.fireAll('change', value);
 			}
 		}, {
 			key: '_inBlackList',
@@ -28919,7 +28933,7 @@
 						year: year,
 						month: month
 					});
-					_this.fireAll('dateChange', e, year, month);
+					_this.fireAll('dateChange', year, month);
 				};
 			}
 		}, {
@@ -28998,8 +29012,7 @@
 				onChange: _react2['default'].PropTypes.func,
 				onDateChange: _react2['default'].PropTypes.func,
 				value: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.string, _react2['default'].PropTypes.object]),
-				blacklist: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.string),
-				name: _react2['default'].PropTypes.string
+				blacklist: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.string)
 			},
 			enumerable: true
 		}, {

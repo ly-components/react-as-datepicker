@@ -4,10 +4,10 @@ import Component from '../src/index';
 var config = {
   year: 2015,
   month: 8,
-  onChange: function(e, val) {
+  onChange: function(val) {
     console.log(val);
   },
-  onDateChange: function(e, year, month) {
+  onDateChange: function(year, month) {
     console.log(year, month);
   },
   blacklist: [{
@@ -22,7 +22,7 @@ var config = {
   }]
 };
 
-React.render(
+window.component = React.render(
   <Component {...config}/>,
   document.getElementById('demo')
 );

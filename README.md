@@ -102,9 +102,17 @@ blacklist: React.PropTypes.arrayOf(React.PropTypes.string) //不可选日期范�
 
 ## Development
 
+开发：
+
 ```bash
 $ npm start
 $ open http://127.0.0.1:3000/demo/demo.html
+```
+
+发布：
+
+```bash
+$ npm run pub
 ```
 
 ## License

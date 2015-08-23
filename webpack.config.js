@@ -17,7 +17,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/'),
     filename: '[name].entry.js',
-    publicPath: '/'
+    publicPath: '/react-as-datepicker/'
   },
   resolve: {
     modulesDirectories: ['node_modules', './src'],

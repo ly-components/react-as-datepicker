@@ -1,0 +1,46 @@
+{
+  "name": "react-as-datepicker",
+  "version": "0.0.1",
+  "description": "A react datepicker",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "webpack"
+  },
+  "author": "skyinlayer",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer-loader": "~2.0.0",
+    "babel-core": "~5.5.4",
+    "babel-loader": "~5.1.4",
+    "css-loader": "~0.14.4",
+    "less": "~2.5.1",
+    "less-loader": "~2.2.0",
+    "react-hot-loader": "~1.2.7",
+    "style-loader": "~0.12.3",
+    "webpack": "~1.9.10",
+    "webpack-dev-server": "~1.9.0",
+    "node-libs-browser": "^0.5.2"
+  },
+  "peerDependencies": {
+    "react": "~0.13.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LingyuCoder/react-as-datepicker.git"
+  },
+  "keywords": [
+    "react",
+    "textarea",
+    "webpack"
+  ],
+  "bugs": {
+    "url": "https://github.com/LingyuCoder/react-as-datepicker/issues"
+  },
+  "homepage": "https://github.com/LingyuCoder/react-as-datepicker#readme",
+  "dependencies": {
+    "file-loader": "~0.8.4",
+    "react-as-event-mixin": "^0.1.1",
+    "react-mixin": "^1.7.0"
+  }
+}

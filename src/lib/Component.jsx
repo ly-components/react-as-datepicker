@@ -24,7 +24,8 @@ class DatePicker extends React.Component {
       React.PropTypes.string,
       React.PropTypes.object
     ]),
-		blacklist: React.PropTypes.arrayOf(React.PropTypes.string)
+		blacklist: React.PropTypes.arrayOf(React.PropTypes.string),
+    name: React.PropTypes.string
 	}
 	static defaultProps = {
 		month: null,
@@ -32,7 +33,8 @@ class DatePicker extends React.Component {
 		onChange: noop,
 		onDateChange: noop,
 		value: null,
-		blacklist: []
+		blacklist: [],
+    name: null
 	}
   constructor(props) {
     super();
@@ -41,12 +43,19 @@ class DatePicker extends React.Component {
 		this.state = {
 			year: props.year || vo.year,
 			month: props.month || vo.month,
-			value: toDate(props.value)
+			value: toDate(props.value),
+      editing: false,
+      editYear: null,
+      editMonth: null
 		};
 		this._blacklist = this._parseBlacklist(props.blacklist);
     this._handleSelect = this._handleSelect.bind(this);
 		this._inBlackList = this._inBlackList.bind(this);
 		this._dateChange = this._dateChange.bind(this);
+    this._handleEditorClick = this._handleEditorClick.bind(this);
+    this._handleYearChange = this._handleYearChange.bind(this);
+    this._handleMonthChange = this._handleMonthChange.bind(this);
+    this._handleBlur = this._handleBlur.bind(this);
   }
 	componentWillReceiveProps(nextProps) {
 		nextProps.blackList && (this._blacklist = this._parseBlacklist(nextProps.blacklist));
@@ -101,11 +110,51 @@ class DatePicker extends React.Component {
 			this.fireAll('dateChange', year, month);
 		};
 	}
+  _handleEditorClick() {
+    this.setState({
+      editing: true,
+      editYear: this.state.year,
+      editMonth: this.state.month
+    });
+  }
+  _handleYearChange(e) {
+    var target = e.target;
+    this.setState({
+      editYear: target.value
+    });
+  }
+  _handleMonthChange(e) {
+    var target = e.target;
+    this.setState({
+      editMonth: target.value
+    });
+  }
+  _handleBlur() {
+    var iptYear = React.findDOMNode(this.refs.iptYear);
+    var iptMonth = React.findDOMNode(this.refs.iptMonth);
+    setTimeout(() => {
+      if(document.activeElement === iptYear || document.activeElement === iptMonth) return;
+      var year = parseInt(this.state.editYear);
+      var month = parseInt(this.state.editMonth);
+      if(month > 12 || month < 1) return;
+      if(year > 2999 || year < 0) return;
+      this.setState({
+        editing: false,
+        editYear: null,
+        editMonth: null,
+        year: year,
+        month: month
+      });
+    }, 0);
+  }
   render() {
     var {
       year,
       month,
-			value
+			value,
+      editing,
+      editYear,
+      editMonth
     } = this.state;
     var data = cache[`${year}-${month}`];
 		var today = new Date();
@@ -114,10 +163,16 @@ class DatePicker extends React.Component {
 
     return (
       <div className="react-as-datepicker">
+        { this.props.name && <input type="hidden" name={this.props.name} value={value ? value.getTime() : ''}></input>}
         <div className="header">
           <span className="opt prev-year" onClick={this._dateChange(-1, 0)}></span>
           <span className="opt prev-month" onClick={this._dateChange(0, -1)}></span>
-          <span className="title">{year}年{month}月</span>
+          <span className="title" onClick={this._handleEditorClick}>
+            { editing ? <span><input ref="iptYear" className="ipt-year" onBlur={this._handleBlur} onChange={this._handleYearChange} value={editYear}></input></span> : year }
+            年
+            { editing ? <span><input ref="iptMonth" className="ipt-month" onBlur={this._handleBlur} onChange={this._handleMonthChange} value={editMonth}></input></span> : month }
+            月
+          </span>
           <span className="opt next-month" onClick={this._dateChange(0, 1)}></span>
           <span className="opt next-year" onClick={this._dateChange(1, 0)}></span>
         </div>

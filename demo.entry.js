@@ -20483,7 +20483,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	Object.defineProperty(exports, '__esModule', {
-		value: true
+			value: true
 	});
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -20514,191 +20514,259 @@
 	var noop = function noop() {};
 
 	var DatePicker = (function (_React$Component) {
-		function DatePicker(props) {
-			_classCallCheck(this, DatePicker);
+			function DatePicker(props) {
+					_classCallCheck(this, DatePicker);
 
-			_get(Object.getPrototypeOf(DatePicker.prototype), 'constructor', this).call(this);
-			var now = new Date();
-			var vo = (0, _util.date2obj)(now);
-			this.state = {
-				year: props.year || vo.year,
-				month: props.month || vo.month,
-				value: (0, _util.toDate)(props.value)
-			};
-			this._blacklist = this._parseBlacklist(props.blacklist);
-			this._handleSelect = this._handleSelect.bind(this);
-			this._inBlackList = this._inBlackList.bind(this);
-			this._dateChange = this._dateChange.bind(this);
-		}
-
-		_inherits(DatePicker, _React$Component);
-
-		_createClass(DatePicker, [{
-			key: 'componentWillReceiveProps',
-			value: function componentWillReceiveProps(nextProps) {
-				nextProps.blackList && (this._blacklist = this._parseBlacklist(nextProps.blacklist));
-				var newState = {};
-				nextProps.year && (newState.year = nextProps.year);
-				nextProps.month && (newState.month = nextProps.month);
-				nextProps.value && (newState.value = (0, _util.toDate)(nextProps.value));
-				this.setState(newState);
-			}
-		}, {
-			key: 'getValue',
-			value: function getValue() {
-				return this.state.value;
-			}
-		}, {
-			key: 'setValue',
-			value: function setValue(val) {
-				if (this._inBlackList(val)) return this;
-				this.setState({
-					value: (0, _util.toDate)(val)
-				});
-				return this;
-			}
-		}, {
-			key: '_parseBlacklist',
-			value: function _parseBlacklist(blacklist) {
-				return blacklist.map(function (item) {
-					return {
-						from: (0, _util.toDate)(item.from),
-						to: (0, _util.toDate)(item.to)
+					_get(Object.getPrototypeOf(DatePicker.prototype), 'constructor', this).call(this);
+					var now = new Date();
+					var vo = (0, _util.date2obj)(now);
+					this.state = {
+							year: props.year || vo.year,
+							month: props.month || vo.month,
+							value: (0, _util.toDate)(props.value),
+							editing: false,
+							editYear: null,
+							editMonth: null
 					};
-				});
+					this._blacklist = this._parseBlacklist(props.blacklist);
+					this._handleSelect = this._handleSelect.bind(this);
+					this._inBlackList = this._inBlackList.bind(this);
+					this._dateChange = this._dateChange.bind(this);
+					this._handleEditorClick = this._handleEditorClick.bind(this);
+					this._handleYearChange = this._handleYearChange.bind(this);
+					this._handleMonthChange = this._handleMonthChange.bind(this);
+					this._handleBlur = this._handleBlur.bind(this);
 			}
-		}, {
-			key: '_handleSelect',
-			value: function _handleSelect(e) {
-				var target = e.target;
-				var value = (0, _util.toDate)({
-					year: this.state.year,
-					month: this.state.month,
-					day: parseInt(target.getAttribute('data-day'))
-				});
-				if ((0, _util.equal)(value, this.state.value)) return;
-				this.setState({
-					value: value
-				});
-				this.fireAll('change', value);
-			}
-		}, {
-			key: '_inBlackList',
-			value: function _inBlackList(day) {
-				return this._blacklist.reduce(function (rst, range) {
-					return rst || (0, _util.inRange)(day, range.from, range.to);
-				}, false);
-			}
-		}, {
-			key: '_dateChange',
-			value: function _dateChange(yearOffset, monthOffset) {
-				var _this = this;
 
-				return function (e) {
-					var year = _this.state.year + yearOffset;
-					var month = _this.state.month + monthOffset;
-					month === 13 && (month = 1, year++);
-					month === 0 && (month = 12, year--);
-					_this.setState({
-						year: year,
-						month: month
-					});
-					_this.fireAll('dateChange', year, month);
-				};
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				var _this2 = this;
+			_inherits(DatePicker, _React$Component);
 
-				var _state = this.state;
-				var year = _state.year;
-				var month = _state.month;
-				var value = _state.value;
+			_createClass(DatePicker, [{
+					key: 'componentWillReceiveProps',
+					value: function componentWillReceiveProps(nextProps) {
+							nextProps.blackList && (this._blacklist = this._parseBlacklist(nextProps.blacklist));
+							var newState = {};
+							nextProps.year && (newState.year = nextProps.year);
+							nextProps.month && (newState.month = nextProps.month);
+							nextProps.value && (newState.value = (0, _util.toDate)(nextProps.value));
+							this.setState(newState);
+					}
+			}, {
+					key: 'getValue',
+					value: function getValue() {
+							return this.state.value;
+					}
+			}, {
+					key: 'setValue',
+					value: function setValue(val) {
+							if (this._inBlackList(val)) return this;
+							this.setState({
+									value: (0, _util.toDate)(val)
+							});
+							return this;
+					}
+			}, {
+					key: '_parseBlacklist',
+					value: function _parseBlacklist(blacklist) {
+							return blacklist.map(function (item) {
+									return {
+											from: (0, _util.toDate)(item.from),
+											to: (0, _util.toDate)(item.to)
+									};
+							});
+					}
+			}, {
+					key: '_handleSelect',
+					value: function _handleSelect(e) {
+							var target = e.target;
+							var value = (0, _util.toDate)({
+									year: this.state.year,
+									month: this.state.month,
+									day: parseInt(target.getAttribute('data-day'))
+							});
+							if ((0, _util.equal)(value, this.state.value)) return;
+							this.setState({
+									value: value
+							});
+							this.fireAll('change', value);
+					}
+			}, {
+					key: '_inBlackList',
+					value: function _inBlackList(day) {
+							return this._blacklist.reduce(function (rst, range) {
+									return rst || (0, _util.inRange)(day, range.from, range.to);
+							}, false);
+					}
+			}, {
+					key: '_dateChange',
+					value: function _dateChange(yearOffset, monthOffset) {
+							var _this = this;
 
-				var data = cache['' + year + '-' + month];
-				var today = new Date();
-				var selected = (0, _util.date2obj)(value);
-				!data && (data = cache['' + year + '-' + month] = (0, _util.getCalendar)(year, month));
+							return function (e) {
+									var year = _this.state.year + yearOffset;
+									var month = _this.state.month + monthOffset;
+									month === 13 && (month = 1, year++);
+									month === 0 && (month = 12, year--);
+									_this.setState({
+											year: year,
+											month: month
+									});
+									_this.fireAll('dateChange', year, month);
+							};
+					}
+			}, {
+					key: '_handleEditorClick',
+					value: function _handleEditorClick() {
+							this.setState({
+									editing: true,
+									editYear: this.state.year,
+									editMonth: this.state.month
+							});
+					}
+			}, {
+					key: '_handleYearChange',
+					value: function _handleYearChange(e) {
+							var target = e.target;
+							this.setState({
+									editYear: target.value
+							});
+					}
+			}, {
+					key: '_handleMonthChange',
+					value: function _handleMonthChange(e) {
+							var target = e.target;
+							this.setState({
+									editMonth: target.value
+							});
+					}
+			}, {
+					key: '_handleBlur',
+					value: function _handleBlur() {
+							var _this2 = this;
 
-				return _react2['default'].createElement(
-					'div',
-					{ className: 'react-as-datepicker' },
-					_react2['default'].createElement(
-						'div',
-						{ className: 'header' },
-						_react2['default'].createElement('span', { className: 'opt prev-year', onClick: this._dateChange(-1, 0) }),
-						_react2['default'].createElement('span', { className: 'opt prev-month', onClick: this._dateChange(0, -1) }),
-						_react2['default'].createElement(
-							'span',
-							{ className: 'title' },
-							year,
-							'年',
-							month,
-							'月'
-						),
-						_react2['default'].createElement('span', { className: 'opt next-month', onClick: this._dateChange(0, 1) }),
-						_react2['default'].createElement('span', { className: 'opt next-year', onClick: this._dateChange(1, 0) })
-					),
-					_react2['default'].createElement(
-						'div',
-						{ className: 'row' },
-						['日', '一', '二', '三', '四', '五', '六'].map(function (day) {
+							var iptYear = _react2['default'].findDOMNode(this.refs.iptYear);
+							var iptMonth = _react2['default'].findDOMNode(this.refs.iptMonth);
+							setTimeout(function () {
+									if (document.activeElement === iptYear || document.activeElement === iptMonth) return;
+									var year = parseInt(_this2.state.editYear);
+									var month = parseInt(_this2.state.editMonth);
+									if (month > 12 || month < 1) return;
+									if (year > 2999 || year < 0) return;
+									_this2.setState({
+											editing: false,
+											editYear: null,
+											editMonth: null,
+											year: year,
+											month: month
+									});
+							}, 0);
+					}
+			}, {
+					key: 'render',
+					value: function render() {
+							var _this3 = this;
+
+							var _state = this.state;
+							var year = _state.year;
+							var month = _state.month;
+							var value = _state.value;
+							var editing = _state.editing;
+							var editYear = _state.editYear;
+							var editMonth = _state.editMonth;
+
+							var data = cache['' + year + '-' + month];
+							var today = new Date();
+							var selected = (0, _util.date2obj)(value);
+							!data && (data = cache['' + year + '-' + month] = (0, _util.getCalendar)(year, month));
+
 							return _react2['default'].createElement(
-								'span',
-								{ className: 'day empty' },
-								day
-							);
-						})
-					),
-					data.map(function (row) {
-						return _react2['default'].createElement(
-							'div',
-							{ className: 'row' },
-							row.map(function (day) {
-								if (!day) return _react2['default'].createElement('div', { className: 'day empty' });
-								var obj = {
-									year: year,
-									month: month,
-									day: day
-								};
-								var disabled = _this2._inBlackList(obj);
-								var className = 'day' + (disabled ? ' disabled' : ' enable') + ((0, _util.equal)(obj, today) ? ' today' : '') + ((0, _util.equal)(obj, selected) ? ' selected' : '');
-								return _react2['default'].createElement(
 									'div',
-									{ 'data-month': month, 'data-year': year, 'data-day': day, onClick: !disabled && _this2._handleSelect, className: className },
-									day
-								);
-							})
-						);
-					})
-				);
-			}
-		}], [{
-			key: 'propTypes',
-			value: {
-				month: _react2['default'].PropTypes.number,
-				year: _react2['default'].PropTypes.number,
-				onChange: _react2['default'].PropTypes.func,
-				onDateChange: _react2['default'].PropTypes.func,
-				value: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.string, _react2['default'].PropTypes.object]),
-				blacklist: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.string)
-			},
-			enumerable: true
-		}, {
-			key: 'defaultProps',
-			value: {
-				month: null,
-				year: null,
-				onChange: noop,
-				onDateChange: noop,
-				value: null,
-				blacklist: []
-			},
-			enumerable: true
-		}]);
+									{ className: 'react-as-datepicker' },
+									this.props.name && _react2['default'].createElement('input', { type: 'hidden', name: this.props.name, value: value ? value.getTime() : '' }),
+									_react2['default'].createElement(
+											'div',
+											{ className: 'header' },
+											_react2['default'].createElement('span', { className: 'opt prev-year', onClick: this._dateChange(-1, 0) }),
+											_react2['default'].createElement('span', { className: 'opt prev-month', onClick: this._dateChange(0, -1) }),
+											_react2['default'].createElement(
+													'span',
+													{ className: 'title', onClick: this._handleEditorClick },
+													editing ? _react2['default'].createElement(
+															'span',
+															null,
+															_react2['default'].createElement('input', { ref: 'iptYear', className: 'ipt-year', onBlur: this._handleBlur, onChange: this._handleYearChange, value: editYear })
+													) : year,
+													'年',
+													editing ? _react2['default'].createElement(
+															'span',
+															null,
+															_react2['default'].createElement('input', { ref: 'iptMonth', className: 'ipt-month', onBlur: this._handleBlur, onChange: this._handleMonthChange, value: editMonth })
+													) : month,
+													'月'
+											),
+											_react2['default'].createElement('span', { className: 'opt next-month', onClick: this._dateChange(0, 1) }),
+											_react2['default'].createElement('span', { className: 'opt next-year', onClick: this._dateChange(1, 0) })
+									),
+									_react2['default'].createElement(
+											'div',
+											{ className: 'row' },
+											['日', '一', '二', '三', '四', '五', '六'].map(function (day) {
+													return _react2['default'].createElement(
+															'span',
+															{ className: 'day empty' },
+															day
+													);
+											})
+									),
+									data.map(function (row) {
+											return _react2['default'].createElement(
+													'div',
+													{ className: 'row' },
+													row.map(function (day) {
+															if (!day) return _react2['default'].createElement('div', { className: 'day empty' });
+															var obj = {
+																	year: year,
+																	month: month,
+																	day: day
+															};
+															var disabled = _this3._inBlackList(obj);
+															var className = 'day' + (disabled ? ' disabled' : ' enable') + ((0, _util.equal)(obj, today) ? ' today' : '') + ((0, _util.equal)(obj, selected) ? ' selected' : '');
+															return _react2['default'].createElement(
+																	'div',
+																	{ 'data-month': month, 'data-year': year, 'data-day': day, onClick: !disabled && _this3._handleSelect, className: className },
+																	day
+															);
+													})
+											);
+									})
+							);
+					}
+			}], [{
+					key: 'propTypes',
+					value: {
+							month: _react2['default'].PropTypes.number,
+							year: _react2['default'].PropTypes.number,
+							onChange: _react2['default'].PropTypes.func,
+							onDateChange: _react2['default'].PropTypes.func,
+							value: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.string, _react2['default'].PropTypes.object]),
+							blacklist: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.string),
+							name: _react2['default'].PropTypes.string
+					},
+					enumerable: true
+			}, {
+					key: 'defaultProps',
+					value: {
+							month: null,
+							year: null,
+							onChange: noop,
+							onDateChange: noop,
+							value: null,
+							blacklist: [],
+							name: null
+					},
+					enumerable: true
+			}]);
 
-		return DatePicker;
+			return DatePicker;
 	})(_react2['default'].Component);
 
 	(0, _reactMixin2['default'])(DatePicker.prototype, _reactAsEventMixin2['default']);
@@ -21284,7 +21352,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(168)();
-	exports.push([module.id, "@font-face {\n  font-family: 'react-as-datepicker-icon';\n  src: url("+__webpack_require__(169)+");\n  /* IE9*/\n  src: url("+__webpack_require__(169)+"?#iefix) format('embedded-opentype'), /* IE6-IE8 */ url("+__webpack_require__(167)+") format('woff'), /* chrome、firefox */ url("+__webpack_require__(170)+") format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url("+__webpack_require__(171)+"#iconfont) format('svg');\n  /* iOS 4.1- */\n}\n.react-as-datepicker {\n  border: 1px solid #ccc;\n  padding: 5px 8px;\n  color: #666;\n  height: auto;\n  width: auto;\n  float: left;\n  position: relative;\n  font-size: 12px;\n  font-family: Tahoma;\n}\n.react-as-datepicker .row {\n  overflow: hidden;\n}\n.react-as-datepicker .row .day {\n  display: inline-block;\n  width: 28px;\n  height: 28px;\n  text-align: center;\n  line-height: 28px;\n  margin: 1px;\n  vertical-align: middle;\n}\n.react-as-datepicker .row .day.enable {\n  cursor: pointer;\n  color: #797979;\n  background-color: #f5f5f5;\n}\n.react-as-datepicker .row .day.enable:hover {\n  outline: 1px solid #dc363a;\n  color: #dc363a;\n}\n.react-as-datepicker .row .day.disabled {\n  background: #797979;\n  color: #fff;\n  cursor: not-allowed;\n}\n.react-as-datepicker .row .day.today {\n  outline: 1px solid #dc363a;\n  color: #dc363a;\n}\n.react-as-datepicker .row .day.today.disabled {\n  color: #fff;\n}\n.react-as-datepicker .row .day.selected {\n  background: #dc363a;\n  color: #fff;\n}\n.react-as-datepicker .row .day.selected:hover {\n  color: #fff;\n}\n.react-as-datepicker .row .day.empty,\n.react-as-datepicker .row .day.week-day {\n  background: none;\n}\n.react-as-datepicker .row .day.empty:hover,\n.react-as-datepicker .row .day.week-day:hover {\n  outline: none;\n  color: #797979;\n}\n.react-as-datepicker .header {\n  height: 30px;\n  font-size: 14px;\n  margin: 2px 0;\n  position: relative;\n}\n.react-as-datepicker .header .opt {\n  position: absolute;\n  top: 0;\n  width: 28px;\n  height: 28px;\n  line-height: 28px;\n  text-align: center;\n  cursor: pointer;\n  -webkit-transition: all .3s linear;\n          transition: all .3s linear;\n}\n.react-as-datepicker .header .opt:before {\n  font-family: 'react-as-datepicker-icon';\n  font-size: 16px;\n}\n.react-as-datepicker .header .opt:hover {\n  color: #dc363a;\n}\n.react-as-datepicker .header .title {\n  display: block;\n  top: 0;\n  line-height: 28px;\n  text-align: center;\n  height: 28px;\n  margin: 0 auto;\n}\n.react-as-datepicker .header .prev-year {\n  left: 0;\n}\n.react-as-datepicker .header .prev-year:before {\n  content: '\\e602';\n}\n.react-as-datepicker .header .prev-month {\n  left: 32px;\n}\n.react-as-datepicker .header .prev-month:before {\n  content: '\\e600';\n}\n.react-as-datepicker .header .next-month {\n  right: 32px;\n}\n.react-as-datepicker .header .next-month:before {\n  content: '\\e601';\n}\n.react-as-datepicker .header .next-year {\n  right: 0;\n}\n.react-as-datepicker .header .next-year:before {\n  content: '\\e603';\n}\n", ""]);
+	exports.push([module.id, "@font-face {\n  font-family: 'react-as-datepicker-icon';\n  src: url("+__webpack_require__(169)+");\n  /* IE9*/\n  src: url("+__webpack_require__(169)+"?#iefix) format('embedded-opentype'), /* IE6-IE8 */ url("+__webpack_require__(167)+") format('woff'), /* chrome、firefox */ url("+__webpack_require__(170)+") format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url("+__webpack_require__(171)+"#iconfont) format('svg');\n  /* iOS 4.1- */\n}\n.react-as-datepicker {\n  border: 1px solid #ccc;\n  padding: 5px 8px;\n  color: #666;\n  height: auto;\n  width: auto;\n  float: left;\n  position: relative;\n  font-size: 12px;\n  font-family: Tahoma;\n}\n.react-as-datepicker .row {\n  overflow: hidden;\n}\n.react-as-datepicker .row .day {\n  display: inline-block;\n  width: 28px;\n  height: 28px;\n  text-align: center;\n  line-height: 28px;\n  margin: 1px;\n  vertical-align: middle;\n}\n.react-as-datepicker .row .day.enable {\n  cursor: pointer;\n  color: #797979;\n  background-color: #f5f5f5;\n}\n.react-as-datepicker .row .day.enable:hover {\n  outline: 1px solid #dc363a;\n  color: #dc363a;\n}\n.react-as-datepicker .row .day.disabled {\n  background: #797979;\n  color: #fff;\n  cursor: not-allowed;\n}\n.react-as-datepicker .row .day.today {\n  outline: 1px solid #dc363a;\n  color: #dc363a;\n}\n.react-as-datepicker .row .day.today.disabled {\n  color: #fff;\n}\n.react-as-datepicker .row .day.selected {\n  background: #dc363a;\n  color: #fff;\n}\n.react-as-datepicker .row .day.selected:hover {\n  color: #fff;\n}\n.react-as-datepicker .row .day.empty,\n.react-as-datepicker .row .day.week-day {\n  background: none;\n}\n.react-as-datepicker .row .day.empty:hover,\n.react-as-datepicker .row .day.week-day:hover {\n  outline: none;\n  color: #797979;\n}\n.react-as-datepicker .header {\n  height: 30px;\n  font-size: 14px;\n  margin: 2px 0;\n  position: relative;\n}\n.react-as-datepicker .header .ipt-year {\n  line-height: 20px;\n  height: 20px;\n  vertical-align: middle;\n  width: 34px;\n}\n.react-as-datepicker .header .ipt-month {\n  line-height: 20px;\n  height: 20px;\n  vertical-align: middle;\n  width: 20px;\n}\n.react-as-datepicker .header .opt {\n  position: absolute;\n  top: 0;\n  width: 28px;\n  height: 28px;\n  line-height: 28px;\n  text-align: center;\n  cursor: pointer;\n  -webkit-transition: all .3s linear;\n          transition: all .3s linear;\n}\n.react-as-datepicker .header .opt:before {\n  font-family: 'react-as-datepicker-icon';\n  font-size: 16px;\n}\n.react-as-datepicker .header .opt:hover {\n  color: #dc363a;\n}\n.react-as-datepicker .header .title {\n  display: block;\n  top: 0;\n  line-height: 28px;\n  text-align: center;\n  height: 28px;\n  margin: 0 auto;\n}\n.react-as-datepicker .header .prev-year {\n  left: 0;\n}\n.react-as-datepicker .header .prev-year:before {\n  content: '\\e602';\n}\n.react-as-datepicker .header .prev-month {\n  left: 32px;\n}\n.react-as-datepicker .header .prev-month:before {\n  content: '\\e600';\n}\n.react-as-datepicker .header .next-month {\n  right: 32px;\n}\n.react-as-datepicker .header .next-month:before {\n  content: '\\e601';\n}\n.react-as-datepicker .header .next-year {\n  right: 0;\n}\n.react-as-datepicker .header .next-year:before {\n  content: '\\e603';\n}\n", ""]);
 
 /***/ },
 /* 167 */

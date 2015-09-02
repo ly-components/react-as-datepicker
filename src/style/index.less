@@ -9,7 +9,6 @@
 
 .react-as-datepicker {
   user-select: none;
-  border: 1px solid #ccc;
   padding: 5px 8px;
   color: #666;
   height: auto;
@@ -18,24 +17,24 @@
   position: relative;
   font-size: 12px;
   font-family: Tahoma;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, .1);
   .row {
     overflow: hidden;
     .day {
       display: inline-block;
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
       text-align: center;
-      line-height: 28px;
+      line-height: 24px;
       margin: 1px;
       vertical-align: middle;
-
       &.enable {
         cursor: pointer;
         color: #797979;
         background-color: #f5f5f5;
         &:hover {
-          outline: 1px solid #dc363a;
-          color: #dc363a;
+          outline: 1px solid #16a085;
+          color: #16a085;
         }
       }
       &.disabled {
@@ -44,14 +43,14 @@
         cursor: not-allowed;
       }
       &.today {
-        outline: 1px solid #dc363a;
-        color: #dc363a;
+        outline: 1px solid #16a085;
+        color: #16a085;
         &.disabled {
           color: #fff;
         }
       }
       &.selected {
-        background: #dc363a;
+        background: #16a085;
         color: #fff;
         &:hover {
           color: #fff;
@@ -68,7 +67,7 @@
     }
   }
   .header {
-    height: 30px;
+    height: 24px;
     font-size: 14px;
     margin: 2px 0;
     position: relative;
@@ -79,18 +78,18 @@
     }
     .ipt-year {
       .ipt();
-      width: 34px;
+      width: 28px;
     }
     .ipt-month {
       .ipt();
-      width: 20px;
+      width: 14px;
     }
     .opt {
       position: absolute;
       top: 0;
-      width: 28px;
-      height: 28px;
-      line-height: 28px;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
       text-align: center;
       cursor: pointer;
       transition: all .3s linear;
@@ -99,7 +98,7 @@
         font-size: 16px;
       }
       &:hover {
-        color: #dc363a;
+        color: #16a085;
       }
     }
     .title {
@@ -117,13 +116,13 @@
       }
     }
     .prev-month {
-      left: 32px;
+      left: 28px;
       &:before {
         content: '\e600';
       }
     }
     .next-month {
-      right: 32px;
+      right: 28px;
       &:before {
         content: '\e601';
       }

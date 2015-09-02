@@ -1,6 +1,6 @@
 {
   "name": "react-as-datepicker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "一个React的日期选择器",
   "main": "src/index.js",
   "scripts": {

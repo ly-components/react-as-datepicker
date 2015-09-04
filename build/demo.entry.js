@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/react-as-datepicker/";
+/******/ 	__webpack_require__.p = "/react-as-calendar/build/";
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);

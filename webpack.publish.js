@@ -13,9 +13,9 @@ module.exports = {
     ]
   },
   output: {
-    path: path.join(__dirname, '/'),
+    path: path.join(__dirname, '/build/'),
     filename: '[name].entry.js',
-    publicPath: '/react-as-datepicker/'
+    publicPath: '/react-as-calendar/build/'
   },
   resolve: {
     modulesDirectories: ['node_modules', './src'],
@@ -33,9 +33,10 @@ module.exports = {
       test: /\.css$/,
       loader: 'style!css!autoprefixer'
     }, {
-      test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+      test: /\.(ttf|eot|svg|png|woff(2)?)(\?[a-z0-9]+)?$/,
       loader: 'file'
     }]
   },
-  plugins: []
+  plugins: [
+  ]
 };
